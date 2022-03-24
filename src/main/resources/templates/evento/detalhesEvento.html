@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Detalhes do evento</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
+<link type="text/css" rel="stylesheet"
+	href="materialize/css/materialize.min.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+	<header>
+		<nav>
+			<div class="nav-wrapper">
+				<div class="container">
+					<a href="#" class="brand-logo">Detalhes do evento</a>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li><a href="/eventos"><i class="material-icons left">event</i>
+								Lista de eventos</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<div class="container detalhesEvento">
+
+		<br>
+
+		<div th:if="${flashMessage != null}">
+			<div
+				th:replace="mensagemValidacao :: alert (type=${flashType}, message=${flashMessage})"></div>
+		</div>
+
+		<!--<div th:fragment="alert (type, message)"
+         th:assert="${!#strings.isEmpty(type) and !#strings.isEmpty(message)}"
+         th:classappend="'alert-' + ${type}" class="alert alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <span th:text="${message}"></span>
+    </div>-->
+
+		<div th:each="evento : ${evento}">
+			<dl class="row">
+				<dt class="col s1">
+					<b>Nome</b>
+				</dt>
+				<dd class="col s11">
+					<span th:text="${evento.nome}"></span>
+				</dd>
+
+				<dt class="col s1">
+					<b>Local</b>
+				</dt>
+				<dd class="col s11">
+					<span th:text="${evento.local}"></span>
+				</dd>
+
+				<dt class="col s1">
+					<b>Data</b>
+				</dt>
+				<dd class="col s11">
+					<span th:text="${evento.data}"></span>
+				</dd>
+
+				<dt class="col s1">
+					<b>Horario</b>
+				</dt>
+				<dd class="col s11">
+					<span th:text="${evento.horario}"></span>
+				</dd>
+			</dl>
+			<hr>
+
+			<h3>Adicionar convidado</h3>
+			<form method="post">
+				<div class="row">
+					<div class="input-field col s3">
+						RG<input type="text" value="" name="rg">
+					</div>
+
+					<div class="input-field col s9">
+						Nome<input type="text" value="" name="nomeConvidado">
+					</div>
+				</div>
+				<button type="submit" class="waves-effect waves-light btn">
+					<i class="material-icons left">save</i> Adicionar convidado
+				</button>
+			</form>
+
+			<hr>
+			<h3>Lista de convidados</h3>
+			<table class="striped highlight responsive-table">
+				<thead>
+					<tr>
+						<th>RG</th>
+						<th>Nome Convidado</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="convidado : ${convidados}">
+						<td><span th:text="${convidado.rg}"></span></td>
+						<td><span th:text="${convidado.nomeConvidado}"></span></td>
+						<td>
+							<a
+								class="waves-effect waves-light btn btn-small btn-floating"
+								th:href="${(#mvc.url('EC#excluirConvidado').arg(0, convidado.rg)).build()}">
+									<i class="material-icons left">delete </i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+</body>
+</html>

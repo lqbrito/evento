@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Listagem de eventos</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
+<link type="text/css" rel="stylesheet"
+	href="materialize/css/materialize.min.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+	<header>
+		<nav>
+			<div class="nav-wrapper">
+				<div class="container">
+					<a href="#" class="brand-logo">Lista de eventos</a>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li><a href="/cadastrarEvento"><i
+								class="material-icons left">add_circle_outline</i> Cadastrar
+								evento</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<div class="container">
+
+		<br>
+		<div th:if="${flashMessage != null}">
+			<div
+				th:replace="mensagemValidacao :: alert (type=${flashType}, message=${flashMessage})"></div>
+		</div>
+
+
+		<table class="striped highlight responsive-table">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Local</th>
+					<th>Data</th>
+					<th>Horário</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="evento : ${eventos}">
+					<div class="row">
+						<td>
+							<a th:href="${(#mvc.url('EC#detalhesEvento').arg(0, evento.codigo)).build()}"><span
+								th:text="${evento.nome}"></span></a>
+						</td>
+						<td><span th:text="${evento.local}"></span></td>
+						<td><span th:text="${evento.data}"></span></td>
+						<td><span th:text="${evento.horario}"></span></td>
+						<td>
+							<a  class="waves-effect waves-light btn btn-small btn-floating" th:href="${(#mvc.url('EC#excluirEvento').arg(0, evento.codigo)).build()}">
+							<i class="material-icons left">delete </i></a>
+						</td>						
+					</div>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+</body>
+</html>
